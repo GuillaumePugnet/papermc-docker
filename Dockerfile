@@ -1,11 +1,13 @@
 FROM ubuntu:latest
 
-RUN apt-get update -y && apt-get upgrade -y 
-RUN apt-get install -y software-properties-common ca-certificates apt-transport-https curl wget jq
-RUN curl https://apt.corretto.aws/corretto.key | apt-key add -
-RUN add-apt-repository 'deb https://apt.corretto.aws stable main'
-RUN apt-get update
-RUN apt-get install -y java-17-amazon-corretto-jdk
+RUN apt-get update -y && apt-get upgrade -y && \
+ apt-get install -y software-properties-common ca-certificates apt-transport-https curl wget jq && \
+ curl https://apt.corretto.aws/corretto.key | apt-key add - && \
+ add-apt-repository 'deb https://apt.corretto.aws stable main' && \
+ apt-get update && \
+ apt-get install -y java-17-amazon-corretto-jdk && \
+ rm -rf /var/lib/apt/lists/* && \
+ mkdir /papermc
 
 
 # Environment variables
@@ -15,8 +17,7 @@ ENV MC_VERSION="latest" \
     JAVA_OPTS=""
 
 COPY papermc.sh .
-RUN rm -rf /var/lib/apt/lists/* \
-    && mkdir /papermc
+RUN 
 
 # Start script
 CMD ["sh", "./papermc.sh"]
