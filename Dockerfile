@@ -17,7 +17,6 @@ ENV MC_VERSION="latest" \
     JAVA_OPTS=""
 
 COPY papermc.sh .
-RUN 
 
 # Start script
 CMD ["sh", "./papermc.sh"]
