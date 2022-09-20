@@ -1,5 +1,12 @@
-# JRE base
-FROM openjdk:16-slim
+FROM ubuntu:latest
+
+RUN apt-get update -y && apt-get upgrade -y 
+RUN apt-get install -y software-properties-common ca-certificates apt-transport-https curl wget jq
+RUN curl https://apt.corretto.aws/corretto.key | apt-key add -
+RUN add-apt-repository 'deb https://apt.corretto.aws stable main'
+RUN apt-get update
+RUN apt-get install -y java-17-amazon-corretto-jdk
+
 
 # Environment variables
 ENV MC_VERSION="latest" \
@@ -8,10 +15,7 @@ ENV MC_VERSION="latest" \
     JAVA_OPTS=""
 
 COPY papermc.sh .
-RUN apt-get update \
-    && apt-get install -y wget \
-    && apt-get install -y jq \
-    && rm -rf /var/lib/apt/lists/* \
+RUN rm -rf /var/lib/apt/lists/* \
     && mkdir /papermc
 
 # Start script
